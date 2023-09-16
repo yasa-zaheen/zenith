@@ -36,7 +36,7 @@ export default function DashboardLayout({
           textMarginRatio={0.25}
         />
       </nav>
-      <div className="">{children}</div>
+      <div className="flex-1">{children}</div>
     </div>
   );
 }
