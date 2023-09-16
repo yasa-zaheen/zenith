@@ -8,11 +8,24 @@ import {
 } from "@heroicons/react/24/outline";
 import Avatar from "react-avatar";
 
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useState } from "react";
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [user, setUser] = useState<any>(undefined);
+
+  onAuthStateChanged(auth, (result) => {
+    if (result) {
+      setUser(result);
+    } else {
+      setUser(undefined);
+    }
+  });
+
   return (
     <div className="h-screen w-full flex">
       <nav className="outline outline-1 outline-black/25 p-8 flex flex-col items-center justify-between">
@@ -28,7 +41,7 @@ export default function DashboardLayout({
 
         {/* Authentication part */}
         <Avatar
-          name="Yasa Zaheen"
+          name={user?.displayName}
           size="40"
           color="#000000"
           fgColor="#ffffff"

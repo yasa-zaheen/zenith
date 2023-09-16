@@ -3,22 +3,31 @@
 import { useState } from "react";
 import Link from "next/link";
 
-import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import {
+  EnvelopeIcon,
+  LockClosedIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 
 import { auth } from "@/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 export default function SignUpPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signUp = async (e: any) => {
+  const signUp = (e: any) => {
     e.preventDefault();
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+
+        updateProfile(user, {
+          displayName: name,
+        });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -43,6 +52,19 @@ export default function SignUpPage() {
 
         {/* Input fields */}
         <div className="flex text-sm flex-col space-y-4">
+          <div className="flex bg-white p-4">
+            <UserIcon className="h-5 w-5 mr-4 text-black" />
+            <input
+              placeholder="Enter your name here"
+              type="text"
+              className="outline-none"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          </div>
+
           <div className="flex bg-white p-4">
             <EnvelopeIcon className="h-5 w-5 mr-4 text-black" />
             <input
