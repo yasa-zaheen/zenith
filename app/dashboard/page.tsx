@@ -1,8 +1,15 @@
 "use client";
 
+// React
 import { useEffect, useState } from "react";
+
+// Components
 import Column from "@/components/Column";
+
+// State management
 import useTasksStore from "@/store/tasksStore";
+
+// Icons
 import {
   MagnifyingGlassIcon,
   ArrowLongRightIcon,
@@ -14,12 +21,12 @@ import {
 export default function DashboardPage() {
   const tasks = useTasksStore((state) => state.tasks);
 
+  const tasksAsArray = Array.from(tasks);
+
   const [toDo, setToDo] = useState<Task[]>([]);
   const [inProgress, setInProgress] = useState<Task[]>([]);
   const [onHold, setOnHold] = useState<Task[]>([]);
   const [done, setDone] = useState<Task[]>([]);
-
-  const tasksAsArray = Array.from(tasks);
 
   useEffect(() => {
     if (tasksAsArray.length != 0) {

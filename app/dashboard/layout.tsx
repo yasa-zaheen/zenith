@@ -29,10 +29,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   // Global states
-  const [tasks, setTasks] = useTasksStore((state) => [
-    state.tasks,
-    state.setTasks,
-  ]);
+  const [setTasks] = useTasksStore((state) => [state.setTasks]);
 
   // Local states
   const [user, setUser] = useState<any>(null);
