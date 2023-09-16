@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Column from "@/components/Column";
+import useTasksStore from "@/store/tasksStore";
 import {
   MagnifyingGlassIcon,
   ArrowLongRightIcon,
@@ -9,41 +11,70 @@ import {
   CheckIcon,
 } from "@heroicons/react/24/outline";
 
-function DashboardHeader() {
-  return (
-    <div className="flex items-center justify-between">
-      <div>
-        <h1 className="text-3xl font-bold">Tasks</h1>
-        <p className="opacity-50 text-sm">Have a productive day!</p>
-      </div>
-
-      <div className="flex text-xs border border-x-0 border-t-0 border-black/25 outline-none p-2 space-x-2">
-        <MagnifyingGlassIcon className="h-5 w-5 text-black" />
-        <input type="text" className="outline-none peer" />
-      </div>
-
-      <button className="bg-black text-white text-xs px-4 py-2 shadow-lg">
-        Create task
-      </button>
-    </div>
-  );
-}
-
 export default function DashboardPage() {
+  const tasks = useTasksStore((state) => state.tasks);
+
+  const [toDo, setToDo] = useState<Task[]>([]);
+  const [inProgress, setInProgress] = useState<Task[]>([]);
+  const [onHold, setOnHold] = useState<Task[]>([]);
+  const [done, setDone] = useState<Task[]>([]);
+
+  const tasksAsArray = Array.from(tasks);
+
+  useEffect(() => {
+    if (tasksAsArray.length != 0) {
+      setToDo(tasksAsArray[0][1]);
+      setInProgress(tasksAsArray[1][1]);
+      setOnHold(tasksAsArray[2][1]);
+      setDone(tasksAsArray[3][1]);
+    }
+  }, [tasksAsArray]);
+
   return (
     <div className="w-full h-screen p-8 flex flex-col space-y-8">
       {/* DashboardHeader */}
-      <DashboardHeader />
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Tasks</h1>
+          <p className="opacity-50 text-sm">Have a productive day!</p>
+        </div>
+
+        <div className="flex text-xs border border-x-0 border-t-0 border-black/25 outline-none p-2 space-x-2">
+          <MagnifyingGlassIcon className="h-5 w-5 text-black" />
+          <input type="text" className="outline-none peer" />
+        </div>
+
+        <button className="bg-black text-white text-xs px-4 py-2 shadow-lg">
+          Create task
+        </button>
+      </div>
+
       {/* Board */}
       <div className="grid grid-cols-4 grid-rows-1 gap-8">
-        <Column title="To Do" Icon={ArrowLongRightIcon} color="text-blue-400" />
         <Column
+          tasks={toDo}
+          title="To Do"
+          Icon={ArrowLongRightIcon}
+          color="text-blue-400"
+        />
+        <Column
+          tasks={inProgress}
           title="In Progress"
           Icon={ArrowPathRoundedSquareIcon}
           color="text-orange-400"
         />
-        <Column title="On Hold" Icon={PauseIcon} color="text-red-500" />
-        <Column title="Done" Icon={CheckIcon} color="text-green-500" />
+        <Column
+          tasks={onHold}
+          title="On Hold"
+          Icon={PauseIcon}
+          color="text-red-500"
+        />
+        <Column
+          tasks={done}
+          title="Done"
+          Icon={CheckIcon}
+          color="text-green-500"
+        />
       </div>
     </div>
   );

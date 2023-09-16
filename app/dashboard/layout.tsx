@@ -1,30 +1,47 @@
 "use client";
 
+// React
+import { useState, useEffect } from "react";
+
+// Firebase
+import { auth } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+
+// Components
 import IconButton from "@/components/IconButton";
+
+// Icons
 import {
   Squares2X2Icon,
   CalendarDaysIcon,
   DocumentIcon,
 } from "@heroicons/react/24/outline";
+
+// State management
+import useTasksStore from "@/store/tasksStore";
+
+// Others
 import Avatar from "react-avatar";
 
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/firebase";
-import { useState } from "react";
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<any>(undefined);
+  // Global states
+  const [tasks, setTasks] = useTasksStore((state) => [
+    state.tasks,
+    state.setTasks,
+  ]);
 
-  onAuthStateChanged(auth, (result) => {
-    if (result) {
-      setUser(result);
-    } else {
-      setUser(undefined);
-    }
-  });
+  // Local states
+  const [user, setUser] = useState<any>(null);
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setTasks(currentUser);
+    });
+  }, []);
 
   return (
     <div className="h-screen w-full flex">

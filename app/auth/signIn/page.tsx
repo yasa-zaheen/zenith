@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -11,6 +13,13 @@ export default function SignInPage() {
 
   const signIn = (e: any) => {
     e.preventDefault();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

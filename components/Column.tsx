@@ -4,10 +4,12 @@ function Column({
   title,
   Icon,
   color,
+  tasks,
 }: {
   title: string;
   Icon: any;
   color: string;
+  tasks: Task[];
 }) {
   return (
     <div>
@@ -16,13 +18,13 @@ function Column({
           {title}
           <Icon className={`h-5 w-5 ml-2 ${color}`} />
         </p>
-        <p className="text-xs opacity-50">3 Tasks</p>
+        <p className="text-xs opacity-50">{tasks.length} Tasks</p>
       </div>
 
       <div>
-        <Card />
-        <Card />
-        <Card />
+        {tasks.map((task) => (
+          <Card title={task.title} description={task.description} />
+        ))}
       </div>
     </div>
   );
