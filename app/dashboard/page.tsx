@@ -17,7 +17,13 @@ import {
   PauseIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
-import { DragDropContext } from "react-beautiful-dnd";
+
+// React Beautiful DnD
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
+
+// Firebase
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 export default function DashboardPage() {
   const tasks = useTasksStore((state) => state.tasks);
@@ -36,9 +42,22 @@ export default function DashboardPage() {
       setOnHold(tasksAsArray[2][1]);
       setDone(tasksAsArray[3][1]);
     }
-  }, [tasksAsArray]);
+  }, [tasks]);
 
-  const handleOnDragEnd = () => {};
+  const handleOnDragEnd = async (result: DropResult) => {
+    const { destination, source } = result;
+
+    const arr = Array.from(tasks);
+    const [task] = arr[+source.droppableId][1].splice(source.index, 1);
+    arr[+destination!.droppableId][1].splice(destination!.index, 0, task);
+
+    const destinationStatus = arr[+destination!.droppableId][0];
+    const docRef = doc(db, "tasks", task.id);
+    // Set the "capital" field of the city 'DC'
+    await updateDoc(docRef, {
+      status: destinationStatus,
+    });
+  };
 
   return (
     <div className="w-full h-screen p-8 flex flex-col space-y-8">
