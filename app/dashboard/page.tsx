@@ -17,6 +17,7 @@ import {
   PauseIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
+import { DragDropContext } from "react-beautiful-dnd";
 
 export default function DashboardPage() {
   const tasks = useTasksStore((state) => state.tasks);
@@ -36,6 +37,8 @@ export default function DashboardPage() {
       setDone(tasksAsArray[3][1]);
     }
   }, [tasksAsArray]);
+
+  const handleOnDragEnd = () => {};
 
   return (
     <div className="w-full h-screen p-8 flex flex-col space-y-8">
@@ -58,30 +61,36 @@ export default function DashboardPage() {
 
       {/* Board */}
       <div className="grid grid-cols-4 grid-rows-1 gap-8">
-        <Column
-          tasks={toDo}
-          title="To Do"
-          Icon={ArrowLongRightIcon}
-          color="text-blue-400"
-        />
-        <Column
-          tasks={inProgress}
-          title="In Progress"
-          Icon={ArrowPathRoundedSquareIcon}
-          color="text-orange-400"
-        />
-        <Column
-          tasks={onHold}
-          title="On Hold"
-          Icon={PauseIcon}
-          color="text-red-500"
-        />
-        <Column
-          tasks={done}
-          title="Done"
-          Icon={CheckIcon}
-          color="text-green-500"
-        />
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Column
+            tasks={toDo}
+            title="To Do"
+            Icon={ArrowLongRightIcon}
+            index={0}
+            color="text-blue-400"
+          />
+          <Column
+            tasks={inProgress}
+            title="In Progress"
+            Icon={ArrowPathRoundedSquareIcon}
+            index={1}
+            color="text-orange-400"
+          />
+          <Column
+            tasks={onHold}
+            title="On Hold"
+            Icon={PauseIcon}
+            index={2}
+            color="text-red-500"
+          />
+          <Column
+            tasks={done}
+            title="Done"
+            Icon={CheckIcon}
+            index={3}
+            color="text-green-500"
+          />
+        </DragDropContext>
       </div>
     </div>
   );

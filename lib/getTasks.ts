@@ -17,6 +17,7 @@ export async function getTasks(user: any) {
       userId: doc.data().userId,
       description: doc.data().description,
       status: doc.data().status,
+      id: doc.id,
     }); // Adding the values
 
     return acc;

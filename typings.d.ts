@@ -7,6 +7,7 @@ interface Task {
   title: string;
   userId: string;
   description: string;
+  id: string;
 }
 
 interface User {
