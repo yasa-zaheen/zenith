@@ -6,11 +6,15 @@ export async function getTasks(user: any) {
 
   const querySnapshot = await getDocs(q); // Getting data
 
+  // Adding values to keys with no items
+  const statuses: Status[] = ["To Do", "In Progress", "On Hold", "Done"];
+
   // Reducing array to a map object
   const mapObject = querySnapshot.docs.reduce((acc, doc) => {
-    if (!acc.get(doc.data().status)) {
-      acc.set(doc.data().status, []);
-    } // Creating the keys
+    acc.set("To Do", []);
+    acc.set("In Progress", []);
+    acc.set("On Hold", []);
+    acc.set("Done", []);
 
     acc.get(doc.data().status)!.push({
       title: doc.data().title,
@@ -23,14 +27,7 @@ export async function getTasks(user: any) {
     return acc;
   }, new Map<Status, Task[]>());
 
-  // Adding values to keys with no items
-  const statuses: Status[] = ["To Do", "In Progress", "On Hold", "Done"];
-
-  statuses.forEach((status) => {
-    if (!mapObject.get(status)) {
-      mapObject.set(status, []);
-    }
-  });
+  console.log(mapObject);
 
   return mapObject;
 }
