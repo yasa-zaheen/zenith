@@ -74,8 +74,10 @@ function CreateTaskModal() {
       userId: user.uid,
     };
 
-    addTask(task);
     setModalOpen(false);
+    setTitle("");
+    setDescription("");
+    addTask(task);
   };
 
   return (
