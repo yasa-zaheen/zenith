@@ -1,7 +1,7 @@
 "use client";
 
 // React
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 // Firebase
 import { auth } from "@/firebase";
@@ -33,8 +33,7 @@ export default function DashboardLayout({
   const [setTasks] = useTasksStore((state) => [state.setTasks]);
   const [user, setUser] = useUserStore((state) => [state.user, state.setUser]);
 
-  // Local states
-
+  // Effects
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);

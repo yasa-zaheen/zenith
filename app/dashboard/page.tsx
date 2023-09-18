@@ -28,19 +28,19 @@ import { db } from "@/firebase";
 import CreateTaskModal from "@/components/CreateTaskModal";
 
 export default function DashboardPage() {
+  // Global states
   const tasks = useTasksStore((state) => state.tasks);
-  const [modalOpen, setModalOpen] = useModalStore((state) => [
-    state.modalOpen,
-    state.setModalOpen,
-  ]);
+  const [setModalOpen] = useModalStore((state) => [state.setModalOpen]);
 
   const tasksAsArray = Array.from(tasks);
 
+  // Local states
   const [toDo, setToDo] = useState<any>(null);
   const [inProgress, setInProgress] = useState<any>(null);
   const [onHold, setOnHold] = useState<any>(null);
   const [done, setDone] = useState<any>(null);
 
+  // Effects
   useEffect(() => {
     if (tasksAsArray.length != 0) {
       setToDo(tasksAsArray[0][1]);
@@ -53,23 +53,24 @@ export default function DashboardPage() {
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
 
+    // Not doing anything if drag is invalid
     if (!destination || !source) return;
 
+    // Adjusting the UI
     const arr = Array.from(tasks);
     const [task] = arr[+source.droppableId][1].splice(source.index, 1);
     arr[+destination!.droppableId][1].splice(destination!.index, 0, task);
 
-    const destinationStatus = arr[+destination!.droppableId][0];
+    // Updating the DB
     const docRef = doc(db, "tasks", task.id);
-    // Set the "capital" field of the city 'DC'
     await updateDoc(docRef, {
-      status: destinationStatus,
+      status: arr[+destination!.droppableId][0],
     });
   };
 
   return (
     <div className="w-full h-screen p-8 flex flex-col space-y-8 relative">
-      {/* DashboardHeader */}
+      {/* Dashboard Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Tasks</h1>

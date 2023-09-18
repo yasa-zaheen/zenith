@@ -24,6 +24,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 
 function CreateTaskModal() {
+  // Global states
   const [modalOpen, setModalOpen] = useModalStore((state) => [
     state.modalOpen,
     state.setModalOpen,
@@ -31,6 +32,7 @@ function CreateTaskModal() {
   const [user] = useUserStore((state) => [state.user]);
   const [addTask] = useTasksStore((state) => [state.addTask]);
 
+  // Local states
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<Status>("To Do");

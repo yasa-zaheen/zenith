@@ -17,6 +17,7 @@ function Column({
 }) {
   return (
     <div>
+      {/* Header */}
       <div className="flex flex-col border-b-2 border-black pb-8">
         <p className="font-semibold text-md flex">
           {title}
@@ -30,7 +31,10 @@ function Column({
             : `${tasks.length} Tasks`}
         </p>
       </div>
+
+      {/* Tasks */}
       {tasks ? (
+        // Actual task card
         <Droppable key={index} droppableId={index.toString()}>
           {(provided, snapShot) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -51,6 +55,7 @@ function Column({
           )}
         </Droppable>
       ) : (
+        // Skeleton if tasks not present
         <div>
           <CardLoading />
           <CardLoading />

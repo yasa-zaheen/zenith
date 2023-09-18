@@ -2,9 +2,11 @@ import { db } from "@/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 export async function getTasks(user: any) {
-  const q = query(collection(db, "tasks"), where("userId", "==", user.uid)); // Query object
+  // Query object
+  const q = query(collection(db, "tasks"), where("userId", "==", user.uid));
 
-  const querySnapshot = await getDocs(q); // Getting data
+  // Getting data
+  const querySnapshot = await getDocs(q);
 
   // Empty map
   const emptyMap: Map<Status, Task[]> = new Map([
@@ -22,12 +24,10 @@ export async function getTasks(user: any) {
       description: doc.data().description,
       status: doc.data().status,
       id: doc.id,
-    }); // Adding the values
+    });
 
     return acc;
   }, emptyMap);
-
-  console.log(mapObject);
 
   return mapObject;
 }
