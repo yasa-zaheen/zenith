@@ -1,5 +1,6 @@
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import Card from "./Card";
+import CardLoading from "./CardLoading";
 
 function Column({
   title,
@@ -21,27 +22,40 @@ function Column({
           {title}
           <Icon className={`h-5 w-5 ml-2 ${color}`} />
         </p>
-        <p className="text-xs opacity-50">{tasks.length} Tasks</p>
+        <p className="text-xs opacity-50">
+          {tasks == null
+            ? ""
+            : tasks.length == 1
+            ? "1 Task"
+            : `${tasks.length} Tasks`}
+        </p>
       </div>
-      <Droppable key={index} droppableId={index.toString()}>
-        {(provided, snapShot) => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            {tasks.map((task, index) => (
-              <Draggable key={task.id} draggableId={task.id} index={index}>
-                {(provided, snapShot) => (
-                  <Card
-                    provided={provided}
-                    snapShot={snapShot}
-                    title={task.title}
-                    description={task.description}
-                  />
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
+      {tasks ? (
+        <Droppable key={index} droppableId={index.toString()}>
+          {(provided, snapShot) => (
+            <div ref={provided.innerRef} {...provided.droppableProps}>
+              {tasks.map((task, index) => (
+                <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {(provided, snapShot) => (
+                    <Card
+                      provided={provided}
+                      snapShot={snapShot}
+                      title={task.title}
+                      description={task.description}
+                    />
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      ) : (
+        <div>
+          <CardLoading />
+          <CardLoading />
+        </div>
+      )}
     </div>
   );
 }

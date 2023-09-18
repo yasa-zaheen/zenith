@@ -30,10 +30,10 @@ export default function DashboardPage() {
 
   const tasksAsArray = Array.from(tasks);
 
-  const [toDo, setToDo] = useState<Task[]>([]);
-  const [inProgress, setInProgress] = useState<Task[]>([]);
-  const [onHold, setOnHold] = useState<Task[]>([]);
-  const [done, setDone] = useState<Task[]>([]);
+  const [toDo, setToDo] = useState<any>(null);
+  const [inProgress, setInProgress] = useState<any>(null);
+  const [onHold, setOnHold] = useState<any>(null);
+  const [done, setDone] = useState<any>(null);
 
   useEffect(() => {
     if (tasksAsArray.length != 0) {
