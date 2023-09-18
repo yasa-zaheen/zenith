@@ -22,6 +22,7 @@ import useTasksStore from "@/store/tasksStore";
 
 // Others
 import Avatar from "react-avatar";
+import useUserStore from "@/store/userStore";
 
 export default function DashboardLayout({
   children,
@@ -30,9 +31,10 @@ export default function DashboardLayout({
 }) {
   // Global states
   const [setTasks] = useTasksStore((state) => [state.setTasks]);
+  const [user, setUser] = useUserStore((state) => [state.user, state.setUser]);
 
   // Local states
-  const [user, setUser] = useState<any>(null);
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -63,6 +65,7 @@ export default function DashboardLayout({
           textMarginRatio={0.25}
         />
       </nav>
+
       <div className="flex-1">{children}</div>
     </div>
   );

@@ -6,16 +6,16 @@ export async function getTasks(user: any) {
 
   const querySnapshot = await getDocs(q); // Getting data
 
-  // Adding values to keys with no items
-  const statuses: Status[] = ["To Do", "In Progress", "On Hold", "Done"];
+  // Empty map
+  const emptyMap: Map<Status, Task[]> = new Map([
+    ["To Do", []],
+    ["In Progress", []],
+    ["On Hold", []],
+    ["Done", []],
+  ]);
 
   // Reducing array to a map object
   const mapObject = querySnapshot.docs.reduce((acc, doc) => {
-    acc.set("To Do", []);
-    acc.set("In Progress", []);
-    acc.set("On Hold", []);
-    acc.set("Done", []);
-
     acc.get(doc.data().status)!.push({
       title: doc.data().title,
       userId: doc.data().userId,
@@ -25,7 +25,7 @@ export async function getTasks(user: any) {
     }); // Adding the values
 
     return acc;
-  }, new Map<Status, Task[]>());
+  }, emptyMap);
 
   console.log(mapObject);
 

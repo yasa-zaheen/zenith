@@ -13,15 +13,27 @@ import {
   ArrowPathRoundedSquareIcon,
   PauseIcon,
 } from "@heroicons/react/24/outline";
+
+// Zustand
 import useModalStore from "@/store/modalStore";
+import useUserStore from "@/store/userStore";
+import useTasksStore from "@/store/tasksStore";
+
+// Firebase
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "@/firebase";
 
 function CreateTaskModal() {
   const [modalOpen, setModalOpen] = useModalStore((state) => [
     state.modalOpen,
     state.setModalOpen,
   ]);
+  const [user] = useUserStore((state) => [state.user]);
+  const [addTask] = useTasksStore((state) => [state.addTask]);
 
-  let [status, setStatus] = useState("To Do");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState<Status>("To Do");
 
   const statuses = [
     {
@@ -42,6 +54,28 @@ function CreateTaskModal() {
     },
   ];
 
+  const createNewTask = async (e: any) => {
+    e.preventDefault();
+
+    const docRef = await addDoc(collection(db, "tasks"), {
+      description: description,
+      status: status,
+      title: title,
+      userId: user.uid,
+    });
+
+    const task: Task = {
+      description: description,
+      id: docRef.id,
+      status: status,
+      title: title,
+      userId: user.uid,
+    };
+
+    addTask(task);
+    setModalOpen(false);
+  };
+
   return (
     <Dialog
       open={modalOpen}
@@ -52,7 +86,10 @@ function CreateTaskModal() {
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
       {/* Full-screen container to center the panel */}
-      <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+      <form
+        onSubmit={createNewTask}
+        className="fixed inset-0 flex w-screen items-center justify-center p-4"
+      >
         {/* The actual dialog panel  */}
         <Dialog.Panel className="flex flex-col w-1/3 justify-center items-center space-y-4 bg-neutral-100 p-8 relative">
           {/* Close button */}
@@ -78,6 +115,10 @@ function CreateTaskModal() {
                 placeholder="Title"
                 type="text"
                 className="outline-none w-full"
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
               />
             </div>
 
@@ -87,6 +128,8 @@ function CreateTaskModal() {
                 placeholder="Description"
                 className="outline-none w-full"
                 rows={3}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
           </div>
@@ -122,7 +165,7 @@ function CreateTaskModal() {
             Create task
           </button>
         </Dialog.Panel>
-      </div>
+      </form>
     </Dialog>
   );
 }

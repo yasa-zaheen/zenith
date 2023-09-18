@@ -5,6 +5,7 @@ interface TasksState {
   tasks: Tasks;
   setTasks: (user: any) => void;
   updateTasks: (tasks: Tasks) => void;
+  addTask: (task: Task) => void;
 }
 
 const useTasksStore = create<TasksState>((set) => ({
@@ -15,6 +16,20 @@ const useTasksStore = create<TasksState>((set) => ({
   },
   updateTasks: (tasks: Tasks) => {
     set({ tasks: tasks });
+  },
+  addTask: (task: Task) => {
+    set((state) => {
+      const newMap = new Map(state.tasks);
+      newMap.get(task.status)!.push({
+        description: task.description,
+        id: task.id,
+        title: task.title,
+        status: task.status,
+        userId: task.userId,
+      });
+
+      return { tasks: newMap };
+    });
   },
 }));
 
