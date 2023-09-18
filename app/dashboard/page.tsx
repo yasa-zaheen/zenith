@@ -47,6 +47,8 @@ export default function DashboardPage() {
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
 
+    if (!destination || !source) return;
+
     const arr = Array.from(tasks);
     const [task] = arr[+source.droppableId][1].splice(source.index, 1);
     arr[+destination!.droppableId][1].splice(destination!.index, 0, task);
