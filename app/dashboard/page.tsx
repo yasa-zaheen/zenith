@@ -8,6 +8,7 @@ import Column from "@/components/Column";
 
 // State management
 import useTasksStore from "@/store/tasksStore";
+import useModalStore from "@/store/modalStore";
 
 // Icons
 import {
@@ -24,9 +25,14 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 // Firebase
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
+import CreateTaskModal from "@/components/CreateTaskModal";
 
 export default function DashboardPage() {
   const tasks = useTasksStore((state) => state.tasks);
+  const [modalOpen, setModalOpen] = useModalStore((state) => [
+    state.modalOpen,
+    state.setModalOpen,
+  ]);
 
   const tasksAsArray = Array.from(tasks);
 
@@ -62,7 +68,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="w-full h-screen p-8 flex flex-col space-y-8">
+    <div className="w-full h-screen p-8 flex flex-col space-y-8 relative">
       {/* DashboardHeader */}
       <div className="flex items-center justify-between">
         <div>
@@ -75,7 +81,12 @@ export default function DashboardPage() {
           <input type="text" className="outline-none peer" />
         </div>
 
-        <button className="bg-black text-white text-xs px-4 py-2 shadow-lg">
+        <button
+          className="bg-black text-white text-xs px-4 py-2 shadow-lg"
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        >
           Create task
         </button>
       </div>
@@ -113,6 +124,8 @@ export default function DashboardPage() {
           />
         </DragDropContext>
       </div>
+
+      <CreateTaskModal />
     </div>
   );
 }

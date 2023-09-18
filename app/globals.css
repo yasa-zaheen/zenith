@@ -2,3 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer base {
+  .modal-radio {
+    @apply bg-white p-4 opacity-25 ui-checked:opacity-100 ui-checked:text-orange-400 cursor-pointer hover:opacity-100 flex space-x-2 items-center duration-100 ease-in-out;
+  }
+ 
+} 
