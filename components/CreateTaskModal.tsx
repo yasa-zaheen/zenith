@@ -22,6 +22,7 @@ import useTasksStore from "@/store/tasksStore";
 // Firebase
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/firebase";
+import LoadingButton from "./LoadingButton";
 
 function CreateTaskModal() {
   // Global states
@@ -36,6 +37,7 @@ function CreateTaskModal() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<Status>("To Do");
+  const [loading, setLoading] = useState(false);
 
   const statuses = [
     {
@@ -58,6 +60,7 @@ function CreateTaskModal() {
 
   const createNewTask = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
 
     const docRef = await addDoc(collection(db, "tasks"), {
       description: description,
@@ -78,6 +81,7 @@ function CreateTaskModal() {
     setTitle("");
     setDescription("");
     addTask(task);
+    setLoading(false);
   };
 
   return (
@@ -162,12 +166,10 @@ function CreateTaskModal() {
           </div>
 
           {/* Create button */}
-          <button
-            type="submit"
-            className="bg-black w-full text-white text-xs py-2 px-4 hover:bg-orange-400 duration-100 ease-in-out active:brightness-90"
-          >
+
+          <LoadingButton type="submit" loading={loading}>
             Create task
-          </button>
+          </LoadingButton>
         </Dialog.Panel>
       </form>
     </Dialog>

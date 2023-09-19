@@ -6,19 +6,25 @@ import Link from "next/link";
 import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
+import LoadingButton from "@/components/LoadingButton";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const signIn = (e: any) => {
+    setLoading(true);
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log(userCredential);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -73,12 +79,9 @@ export default function SignInPage() {
         </p>
 
         {/* Sign Up Button */}
-        <button
-          type="submit"
-          className="bg-black text-white py-2 px-4 hover:bg-orange-400 duration-100 ease-in-out active:brightness-90"
-        >
+        <LoadingButton loading={loading} type="submit">
           Sign In
-        </button>
+        </LoadingButton>
       </form>
     </div>
   );

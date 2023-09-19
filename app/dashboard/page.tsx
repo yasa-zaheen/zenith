@@ -83,7 +83,7 @@ export default function DashboardPage() {
         </div>
 
         <button
-          className="bg-black text-white text-xs px-4 py-2 shadow-lg"
+          className="bg-black text-white text-xs px-4 py-2 shadow-lg hover:bg-orange-400 hover:text-black duration-100 ease-in-out"
           onClick={() => {
             setModalOpen(true);
           }}

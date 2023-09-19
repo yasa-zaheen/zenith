@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 // Firebase
 import { db } from "@/firebase";
 import { doc, deleteDoc } from "firebase/firestore";
@@ -21,8 +23,10 @@ function Card({
   task: Task;
 }) {
   const [removeTask] = useTasksStore((state) => [state.removeTask]);
+  const [deleting, setDeleting] = useState(false);
 
   const deleteTask = async () => {
+    setDeleting(true);
     await deleteDoc(doc(db, "tasks", task.id));
     removeTask(task);
   };
@@ -36,7 +40,7 @@ function Card({
         snapShot.isDragging
           ? "bg-neutral-100 px-8 border-orange-400 scale-105 shadow-lg z-50"
           : "bg-white"
-      }`}
+      } ${deleting ? "opacity-25" : ""}`}
     >
       <p
         className={`text-sm font-bold group-hover:text-orange-400 ${
