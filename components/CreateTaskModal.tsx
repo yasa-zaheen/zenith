@@ -80,10 +80,10 @@ function CreateTaskModal() {
       userId: user.uid,
     };
 
-    setModalOpen(false);
+    addTask(task);
     setTitle("");
     setDescription("");
-    addTask(task);
+    setModalOpen(false);
     setLoading(false);
   };
 
