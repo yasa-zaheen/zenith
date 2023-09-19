@@ -186,9 +186,7 @@ function CreateTaskModal() {
 
               {/* Create button */}
 
-              <LoadingButton type="submit" loading={loading}>
-                Create task
-              </LoadingButton>
+              <LoadingButton loading={loading}>Create task</LoadingButton>
             </Dialog.Panel>
           </form>
         </Transition.Child>
