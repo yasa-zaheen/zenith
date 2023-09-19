@@ -2,11 +2,9 @@ import { TailSpin } from "react-loader-spinner";
 
 function LoadingButton({
   children,
-  type,
   loading,
 }: {
   children: any;
-  type: "submit";
   loading: boolean;
 }) {
   return (

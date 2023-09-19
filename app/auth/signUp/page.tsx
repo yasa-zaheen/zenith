@@ -11,14 +11,18 @@ import {
 
 import { auth } from "@/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import LoadingButton from "@/components/LoadingButton";
 
 export default function SignUpPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const signUp = (e: any) => {
     e.preventDefault();
+    setLoading(true);
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -100,12 +104,7 @@ export default function SignUpPage() {
         </p>
 
         {/* Sign Up Button */}
-        <button
-          type="submit"
-          className="bg-black text-white py-2 px-4 hover:bg-orange-400 duration-100 ease-in-out active:brightness-90"
-        >
-          Sign Up
-        </button>
+        <LoadingButton loading={loading}>Sign Up</LoadingButton>
       </form>
     </div>
   );
