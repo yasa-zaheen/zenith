@@ -37,7 +37,13 @@ function Column({
         // Actual task card
         <Droppable key={index} droppableId={index.toString()}>
           {(provided, snapShot) => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className={`${
+                snapShot.isUsingPlaceholder ? "bg-neutral-200" : ""
+              }`}
+            >
               {tasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapShot) => (
