@@ -41,12 +41,7 @@ function Column({
               {tasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapShot) => (
-                    <Card
-                      provided={provided}
-                      snapShot={snapShot}
-                      title={task.title}
-                      description={task.description}
-                    />
+                    <Card provided={provided} snapShot={snapShot} task={task} />
                   )}
                 </Draggable>
               ))}

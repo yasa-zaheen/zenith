@@ -1,17 +1,32 @@
+// Firebase
+import { db } from "@/firebase";
+import { doc, deleteDoc } from "firebase/firestore";
+
+// Zustand
+import useTasksStore from "@/store/tasksStore";
+
+// Heroicon
 import { XMarkIcon } from "@heroicons/react/24/outline";
+
+// React Beautiful DnD
 import { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 
 function Card({
-  title,
-  description,
   provided,
   snapShot,
+  task,
 }: {
-  title: string;
-  description: string;
   provided: DraggableProvided;
   snapShot: DraggableStateSnapshot;
+  task: Task;
 }) {
+  const [removeTask] = useTasksStore((state) => [state.removeTask]);
+
+  const deleteTask = async () => {
+    await deleteDoc(doc(db, "tasks", task.id));
+    removeTask(task);
+  };
+
   return (
     <div
       {...provided.dragHandleProps}
@@ -28,12 +43,13 @@ function Card({
           snapShot.isDragging ? "text-orange-400" : "text-black"
         }`}
       >
-        {title}
+        {task.title}
       </p>
-      <p className="text-xs opacity-50">{description}</p>
+      <p className="text-xs opacity-50">{task.description}</p>
 
       <XMarkIcon
-        className={`h-5 w-5 text-black/25 absolute top-2 left-2 group-hover:scale-100 duration-100 ease-in-out ${
+        onClick={deleteTask}
+        className={`h-5 w-5 text-black/25 absolute top-2 left-2 group-hover:scale-100 duration-100 ease-in-out cursor-pointer ${
           snapShot.isDragging ? "scale-100" : "scale-0"
         }`}
       />

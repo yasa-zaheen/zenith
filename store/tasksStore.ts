@@ -6,6 +6,7 @@ interface TasksState {
   setTasks: (user: any) => void;
   updateTasks: (tasks: Tasks) => void;
   addTask: (task: Task) => void;
+  removeTask: (task: Task) => void;
 }
 
 const useTasksStore = create<TasksState>((set) => ({
@@ -26,6 +27,19 @@ const useTasksStore = create<TasksState>((set) => ({
         title: task.title,
         status: task.status,
         userId: task.userId,
+      });
+
+      return { tasks: newMap };
+    });
+  },
+  removeTask: (task: Task) => {
+    set((state) => {
+      const newMap = new Map(state.tasks);
+
+      newMap.get(task.status)!.forEach((t, index) => {
+        if (t.id === task.id) {
+          newMap.get(task.status)!.splice(index, 1);
+        }
       });
 
       return { tasks: newMap };
