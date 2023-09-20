@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import {
   EnvelopeIcon,
@@ -10,10 +11,15 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { auth } from "@/firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 import LoadingButton from "@/components/LoadingButton";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +45,12 @@ export default function SignUpPage() {
         console.log(errorMessage);
       });
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, () => {
+      router.push("/dashboard");
+    });
+  }, []);
 
   return (
     <div className="h-screen w-full flex items-center justify-center">

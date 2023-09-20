@@ -26,11 +26,13 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import CreateTaskModal from "@/components/CreateTaskModal";
+import useUserStore from "@/store/userStore";
 
 export default function DashboardPage() {
   // Global states
   const tasks = useTasksStore((state) => state.tasks);
   const [setModalOpen] = useModalStore((state) => [state.setModalOpen]);
+  const [user] = useUserStore((state) => [state.user]);
 
   const tasksAsArray = Array.from(tasks);
 

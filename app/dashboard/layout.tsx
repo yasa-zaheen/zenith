@@ -2,6 +2,7 @@
 
 // React
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // Firebase
 import { auth } from "@/firebase";
@@ -33,11 +34,17 @@ export default function DashboardLayout({
   const [setTasks] = useTasksStore((state) => [state.setTasks]);
   const [user, setUser] = useUserStore((state) => [state.user, state.setUser]);
 
+  const router = useRouter();
+
   // Effects
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setTasks(currentUser);
+      if (user) {
+        setUser(currentUser);
+        setTasks(currentUser);
+      } else {
+        router.push("/auth/signIn");
+      }
     });
   }, []);
 

@@ -1,14 +1,22 @@
 "use client";
 
-import { useState } from "react";
+// React
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+// Heroicons
 import { LockClosedIcon, EnvelopeIcon } from "@heroicons/react/24/outline";
-import { signInWithEmailAndPassword } from "firebase/auth";
+
+// Firebase
 import { auth } from "@/firebase";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+
+// Components
 import LoadingButton from "@/components/LoadingButton";
 
 export default function SignInPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,6 +35,12 @@ export default function SignInPage() {
         setLoading(false);
       });
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, () => {
+      router.push("/dashboard");
+    });
+  }, []);
 
   return (
     <div className="h-screen w-full flex items-center justify-center">
