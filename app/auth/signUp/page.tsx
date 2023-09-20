@@ -104,7 +104,7 @@ export default function SignUpPage() {
         </p>
 
         {/* Sign Up Button */}
-        {/* <LoadingButton loading={loading}>Sign Up</LoadingButton> */}
+        <LoadingButton loading={loading}>Sign Up</LoadingButton>
       </form>
     </div>
   );
