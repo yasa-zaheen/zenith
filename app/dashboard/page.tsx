@@ -78,10 +78,10 @@ export default function DashboardPage() {
           <p className="opacity-50 text-sm">Have a productive day!</p>
         </div>
 
-        <div className="hidden flex text-xs border border-x-0 border-t-0 border-black/25 outline-none p-2 space-x-2">
+        {/* <div className="hidden flex text-xs border border-x-0 border-t-0 border-black/25 outline-none p-2 space-x-2">
           <MagnifyingGlassIcon className="h-5 w-5 text-black" />
           <input type="text" className="outline-none peer" />
-        </div>
+        </div> */}
 
         <button
           className="bg-black text-white text-xs px-4 py-2 shadow-lg hover:bg-orange-400 hover:text-black duration-100 ease-in-out"
@@ -94,7 +94,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Board */}
-      <div className="flex flex-col space-y-4 md:grid md:grid-cols-4 md:grid-rows-1 md:gap-8 md:space-y-0">
+      <div className="flex flex-col space-y-8 md:grid md:grid-cols-4 md:grid-rows-1 md:gap-8 md:space-y-0 pb-8">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Column
             tasks={toDo}
