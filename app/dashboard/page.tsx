@@ -70,7 +70,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="w-full h-screen p-8 flex flex-col space-y-8 relative">
+    <div className="w-full h-screen p-4 md:p-8 flex flex-col space-y-8 relative">
       {/* Dashboard Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -78,7 +78,7 @@ export default function DashboardPage() {
           <p className="opacity-50 text-sm">Have a productive day!</p>
         </div>
 
-        <div className="flex text-xs border border-x-0 border-t-0 border-black/25 outline-none p-2 space-x-2">
+        <div className="hidden flex text-xs border border-x-0 border-t-0 border-black/25 outline-none p-2 space-x-2">
           <MagnifyingGlassIcon className="h-5 w-5 text-black" />
           <input type="text" className="outline-none peer" />
         </div>
@@ -94,7 +94,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Board */}
-      <div className="grid grid-cols-4 grid-rows-1 gap-8">
+      <div className="flex flex-col space-y-4 md:grid md:grid-cols-4 md:grid-rows-1 md:gap-8 md:space-y-0">
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Column
             tasks={toDo}

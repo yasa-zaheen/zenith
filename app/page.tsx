@@ -23,14 +23,14 @@ export default function Home() {
       </nav>
       {/* Main image */}
       <div className="p-8 flex flex-col flex-1 items-center justify-center space-y-4">
-        <p className="text-5xl font-black text-center">
+        <p className="text-3xl md:text-5xl font-black text-center">
           Streamline your life and increase your productivity!
         </p>
-        <p className="opacity-50 text-md font-medium">
+        <p className="opacity-50 text-md font-medium text-center">
           Effortlessly streamline your life by using our powerful kanban tool
         </p>
 
-        <div className="flex items-center space-x-4 justify-center">
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-x-4 md:space-y-0 ">
           <Link
             href={"/auth/signUp"}
             className="bg-orange-400 text-black px-4 py-2 text-md"
@@ -38,7 +38,7 @@ export default function Home() {
             Start for free
           </Link>
           <div>
-            <div>
+            <div className="flex flex-col justify-center items-center md:items-start">
               <p>No credit card required</p>
               <p className="text-xs opacity-50">
                 Although I wouldn't mind some money 😆

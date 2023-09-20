@@ -49,13 +49,13 @@ export default function DashboardLayout({
   }, []);
 
   return (
-    <div className="h-screen w-full flex">
-      <nav className="outline outline-1 outline-black/25 p-8 flex flex-col items-center justify-between">
+    <div className="h-screen w-full flex flex-col md:flex-row">
+      <nav className="outline outline-1 outline-black/25 p-4 md:p-8 flex flex-row md:flex-col items-center justify-between">
         {/* Title */}
         <h1 className="text-3xl font-bold">Z</h1>
 
         {/* Icons/Links */}
-        <div className="flex flex-col">
+        <div className="flex flex-row md:flex-col">
           <IconButton Icon={Squares2X2Icon} />
           <IconButton Icon={CalendarDaysIcon} />
           <IconButton Icon={DocumentIcon} />

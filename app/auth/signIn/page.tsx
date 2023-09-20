@@ -25,8 +25,10 @@ export default function SignInPage() {
 
   // Effects
   useEffect(() => {
-    onAuthStateChanged(auth, () => {
-      router.push("/dashboard");
+    onAuthStateChanged(auth, (user) => {
+      if (user !== null) {
+        router.push("/dashboard");
+      }
     });
   }, []);
 
@@ -38,6 +40,7 @@ export default function SignInPage() {
       .then((userCredential) => {
         console.log(userCredential);
         setLoading(false);
+        router.push("/dashboard");
       })
       .catch((error) => {
         console.log(error);

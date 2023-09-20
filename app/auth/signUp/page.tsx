@@ -35,8 +35,10 @@ export default function SignUpPage() {
 
   // Effects
   useEffect(() => {
-    onAuthStateChanged(auth, () => {
-      router.push("/dashboard");
+    onAuthStateChanged(auth, (user) => {
+      if (user !== null) {
+        router.push("/dashboard");
+      }
     });
   }, []);
 
@@ -53,11 +55,15 @@ export default function SignUpPage() {
         updateProfile(user, {
           displayName: name,
         });
+
+        setLoading(false);
+        router.push("/dashboard");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
+        setLoading(false);
       });
   };
 

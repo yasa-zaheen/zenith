@@ -120,7 +120,7 @@ function CreateTaskModal() {
             className="fixed inset-0 flex w-screen items-center justify-center p-4"
           >
             {/* The actual dialog panel  */}
-            <Dialog.Panel className="flex flex-col w-1/3 justify-center items-center space-y-4 bg-neutral-100 p-8 relative">
+            <Dialog.Panel className="flex flex-col w-full md:w-1/3 justify-center items-center space-y-4 bg-neutral-100 p-8 relative">
               {/* Close button */}
               <button
                 onClick={() => {
