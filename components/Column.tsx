@@ -42,7 +42,7 @@ function Column({
               {...provided.droppableProps}
               className={`${
                 snapShot.isUsingPlaceholder ? "bg-neutral-200" : ""
-              } `}
+              } mb-8 md:mb-0 `}
             >
               {tasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
