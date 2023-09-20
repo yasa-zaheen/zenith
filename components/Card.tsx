@@ -22,9 +22,13 @@ function Card({
   snapShot: DraggableStateSnapshot;
   task: Task;
 }) {
+  // Global states
   const [removeTask] = useTasksStore((state) => [state.removeTask]);
+
+  // Local states
   const [deleting, setDeleting] = useState(false);
 
+  // Functions
   const deleteTask = async () => {
     setDeleting(true);
     await deleteDoc(doc(db, "tasks", task.id));
@@ -42,6 +46,7 @@ function Card({
           : "bg-white"
       } ${deleting ? "opacity-25" : ""}`}
     >
+      {/* Title */}
       <p
         className={`text-sm font-bold group-hover:text-orange-400 ${
           snapShot.isDragging ? "text-orange-400" : "text-black"
@@ -49,8 +54,11 @@ function Card({
       >
         {task.title}
       </p>
+
+      {/* Description */}
       <p className="text-xs opacity-50">{task.description}</p>
 
+      {/* Delete button */}
       <XMarkIcon
         onClick={deleteTask}
         className={`h-5 w-5 text-black/25 absolute top-2 left-2 group-hover:scale-100 duration-100 ease-in-out cursor-pointer ${

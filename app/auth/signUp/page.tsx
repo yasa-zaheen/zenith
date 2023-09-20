@@ -1,31 +1,46 @@
 "use client";
 
+// React
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
+// Heroicons
 import {
   EnvelopeIcon,
   LockClosedIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
 
+// Firebase
 import { auth } from "@/firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
+
+// Components
 import LoadingButton from "@/components/LoadingButton";
 
 export default function SignUpPage() {
   const router = useRouter();
+
+  // Local states
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
 
+  // Effects
+  useEffect(() => {
+    onAuthStateChanged(auth, () => {
+      router.push("/dashboard");
+    });
+  }, []);
+
+  // Functions
   const signUp = (e: any) => {
     e.preventDefault();
     setLoading(true);
@@ -45,12 +60,6 @@ export default function SignUpPage() {
         console.log(errorMessage);
       });
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, () => {
-      router.push("/dashboard");
-    });
-  }, []);
 
   return (
     <div className="h-screen w-full flex items-center justify-center">

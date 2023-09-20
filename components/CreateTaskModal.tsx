@@ -42,19 +42,21 @@ function CreateTaskModal() {
   const statuses = [
     {
       status: "To Do",
-      icon: <ArrowLongRightIcon className="h-5 w-5" />,
+      icon: <ArrowLongRightIcon className="h-5 w-5 ui-checked:text-blue-400" />,
     },
     {
       status: "In Progress",
-      icon: <ArrowPathRoundedSquareIcon className="h-5 w-5" />,
+      icon: (
+        <ArrowPathRoundedSquareIcon className="h-5 w-5 ui-checked:text-orange-400" />
+      ),
     },
     {
       status: "On Hold",
-      icon: <PauseIcon className="h-5 w-5" />,
+      icon: <PauseIcon className="h-5 w-5 ui-checked:text-red-500" />,
     },
     {
       status: "Done",
-      icon: <CheckIcon className="h-5 w-5" />,
+      icon: <CheckIcon className="h-5 w-5 ui-checked:text-green-500" />,
     },
   ];
 

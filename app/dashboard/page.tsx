@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 // Components
 import Column from "@/components/Column";
+import CreateTaskModal from "@/components/CreateTaskModal";
 
 // State management
 import useTasksStore from "@/store/tasksStore";
@@ -25,22 +26,19 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 // Firebase
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
-import CreateTaskModal from "@/components/CreateTaskModal";
-import useUserStore from "@/store/userStore";
 
 export default function DashboardPage() {
   // Global states
   const tasks = useTasksStore((state) => state.tasks);
   const [setModalOpen] = useModalStore((state) => [state.setModalOpen]);
-  const [user] = useUserStore((state) => [state.user]);
-
-  const tasksAsArray = Array.from(tasks);
 
   // Local states
   const [toDo, setToDo] = useState<any>(null);
   const [inProgress, setInProgress] = useState<any>(null);
   const [onHold, setOnHold] = useState<any>(null);
   const [done, setDone] = useState<any>(null);
+
+  const tasksAsArray = Array.from(tasks);
 
   // Effects
   useEffect(() => {
@@ -52,6 +50,7 @@ export default function DashboardPage() {
     }
   }, [tasks]);
 
+  // Functions
   const handleOnDragEnd = async (result: DropResult) => {
     const { destination, source } = result;
 

@@ -20,29 +20,29 @@ import {
 
 // State management
 import useTasksStore from "@/store/tasksStore";
+import useUserStore from "@/store/userStore";
 
 // Others
 import Avatar from "react-avatar";
-import useUserStore from "@/store/userStore";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+
   // Global states
   const [setTasks] = useTasksStore((state) => [state.setTasks]);
   const [user, setUser] = useUserStore((state) => [state.user, state.setUser]);
 
-  const router = useRouter();
-
   // Effects
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (user) {
-        setUser(currentUser);
-        setTasks(currentUser);
-      } else {
+      setUser(currentUser);
+      setTasks(currentUser);
+
+      if (currentUser === null) {
         router.push("/auth/signIn");
       }
     });

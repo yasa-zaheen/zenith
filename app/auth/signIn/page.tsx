@@ -16,12 +16,21 @@ import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import LoadingButton from "@/components/LoadingButton";
 
 export default function SignInPage() {
+  // Local states
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
 
+  // Effects
+  useEffect(() => {
+    onAuthStateChanged(auth, () => {
+      router.push("/dashboard");
+    });
+  }, []);
+
+  // Functions
   const signIn = (e: any) => {
     setLoading(true);
     e.preventDefault();
@@ -35,12 +44,6 @@ export default function SignInPage() {
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, () => {
-      router.push("/dashboard");
-    });
-  }, []);
 
   return (
     <div className="h-screen w-full flex items-center justify-center">
